@@ -42,11 +42,17 @@ function Contact(firstName, lastName, phoneNumber, email, personalAddress, workA
   this.firstName = firstName,
   this.lastName = lastName,
   this.phoneNumber = phoneNumber,
-  this.email = email,
+  this.emails = [],
   this.personalAddress = personalAddress,
   this.workAddress = workAddress
 }
 
+Contact.prototype.addEmail = function(email){
+  this.emails.push(email)
+}
+function Email(personal) {
+  this.personal = personal
+}
 
 
 Contact.prototype.fullName = function() {
@@ -71,8 +77,10 @@ function showContact(contactId) {
   $(".first-name").html(contact.firstName);
   $(".last-name").html(contact.lastName);
   $(".phone-number").html(contact.phoneNumber);
-  $(".phone-number").html(contact.phoneNumber);
-  $(".email").html(contact.email);
+  // console.log(contact.emails[0].personal);
+  // console.log(contact.emails[1].personal);
+  $(".email").text(contact.emails[0].personal);
+  $(".workEmail").text(contact.emails[1].personal);
   $(".personal-address").html(contact.personalAddress);
   $(".work-address").html(contact.workAddress);
   var buttons = $("#buttons");
@@ -101,13 +109,24 @@ $(document).ready(function() {
     var inputtedPersonalAddress = $("input#new-personal-address").val();
     var inputtedWorkAddress = $("input#new-work-address").val();
     var inputtedEmail = $("input#new-email").val();
+    var inputtedWorkEmail = $("input#new-work-email").val();
     $("input#new-first-name").val("");
     $("input#new-last-name").val("");
     $("input#new-phone-number").val("");
     $("input#new-personal-address").val("");
     $("input#new-work-address").val("");
     $("input#new-email").val("");
+    $("input#new-work-email").val("");
+    var newEmail = new Email(inputtedEmail)
+    var newWorkEmail = new Email (inputtedWorkEmail)
     var newContact = new Contact(inputtedFirstName, inputtedLastName, inputtedPhoneNumber, inputtedEmail, inputtedPersonalAddress, inputtedWorkAddress);
+    newContact.addEmail(newEmail);
+    newContact.addEmail(newWorkEmail);
+    // newContact.email.toString()
+    console.log(newContact)
+    console.log(newContact.emails[0]);
+    console.log(newContact.emails[1]);
+
     addressBook.addContact(newContact);
     displayContactDetails(addressBook);
   })
